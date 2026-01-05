@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FAST Repository</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <header class="bg-white shadow">
+    <div class="max-w-6xl mx-auto p-6">
+      <h1 class="text-3xl font-bold">FAST Repository</h1>
+      <p class="text-gray-600">
+        Community-driven academic resources for FAST NU students
+      </p>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-6">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search course (e.g. PF, OOP, Discrete...)"
+      class="w-full p-4 rounded-lg border mb-6"
+    />
+
+    <div id="courseList" class="grid md:grid-cols-3 gap-6"></div>
+  </main>
+
+  <footer class="text-center text-gray-500 py-6">
+    Built by FAST students • Open Source
+  </footer>
+
+  <script src="js/home.js"></script>
+</body>
+</html>

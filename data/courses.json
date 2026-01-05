@@ -1,0 +1,17 @@
+[
+  {
+    "code": "CS101",
+    "name": "Programming Fundamentals",
+    "slug": "pf"
+  },
+  {
+    "code": "CS201",
+    "name": "Object Oriented Programming",
+    "slug": "oop"
+  },
+  {
+    "code": "MT104",
+    "name": "Discrete Structures",
+    "slug": "discrete"
+  }
+]
