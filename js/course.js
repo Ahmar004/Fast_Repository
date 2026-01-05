@@ -4,50 +4,48 @@ const slug = params.get("course");
 fetch(`data/${slug}.json`)
   .then(res => res.json())
   .then(data => {
-    document.getElementById("courseTitle").innerText =
-      `${data.course_name} (${data.course_code})`;
-
+    renderNavbar({
+      title: `${data.course_code} – ${data.course_name}`,
+      backLink: "index.html"
+    });
+    renderFooter();
     renderSections(data);
   });
 
 function renderSections(data) {
   const container = document.getElementById("courseContent");
 
-  // Campus resources
   for (const campus in data.campuses) {
     const items = data.campuses[campus];
-    if (items.length === 0) continue;
+    if (!items.length) continue;
 
     container.innerHTML += `
       <section>
-        <h2 class="text-xl font-semibold">${campus} Campus</h2>
-        <ul class="mt-3 space-y-2">
+        <h2 class="text-xl font-semibold mb-3">${campus} Campus</h2>
+        <div class="grid gap-4">
           ${items.map(r => `
-            <li class="bg-white p-4 rounded shadow">
-              <a href="${r.url}" class="text-blue-600 font-medium underline">
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+              <a href="${r.url}" class="text-blue-500 hover:underline font-medium">
                 ${r.title}
               </a>
-              <p class="text-sm text-gray-500">
+              <p class="text-sm text-gray-500 mt-1">
                 Includes: ${r.includes.join(", ")}
               </p>
-            </li>
+            </div>
           `).join("")}
-        </ul>
+        </div>
       </section>
     `;
   }
 
-  // YouTube
-  if (data.youtube.length > 0) {
+  if (data.youtube.length) {
     container.innerHTML += `
       <section>
-        <h2 class="text-xl font-semibold">YouTube Playlists</h2>
-        <ul class="mt-3">
+        <h2 class="text-xl font-semibold">YouTube Resources</h2>
+        <ul class="mt-2 space-y-1">
           ${data.youtube.map(y => `
             <li>
-              <a href="${y.url}" class="text-red-600 underline">
-                ${y.title}
-              </a>
+              <a href="${y.url}" class="text-red-500 hover:underline">${y.title}</a>
             </li>
           `).join("")}
         </ul>
@@ -55,17 +53,14 @@ function renderSections(data) {
     `;
   }
 
-  // General
-  if (data.general.length > 0) {
+  if (data.general.length) {
     container.innerHTML += `
       <section>
         <h2 class="text-xl font-semibold">General Resources</h2>
-        <ul class="mt-3">
+        <ul class="mt-2 space-y-1">
           ${data.general.map(g => `
             <li>
-              <a href="${g.url}" class="text-blue-600 underline">
-                ${g.title}
-              </a>
+              <a href="${g.url}" class="text-blue-500 hover:underline">${g.title}</a>
             </li>
           `).join("")}
         </ul>

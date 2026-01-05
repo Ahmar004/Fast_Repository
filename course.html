@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>Course Resources</title>
+  <title>Course</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
 </head>
-<body class="bg-gray-100">
 
-  <main class="max-w-5xl mx-auto p-6">
-    <a href="index.html" class="text-blue-600 underline">← Back</a>
+<body class="bg-[#f6f1e7] dark:bg-[#0d1117] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
 
-    <h1 id="courseTitle" class="text-3xl font-bold mt-4"></h1>
+  <nav id="navbar" class="border-b border-gray-200 dark:border-gray-800"></nav>
 
-    <div id="courseContent" class="mt-8 space-y-10"></div>
+  <main class="flex-grow max-w-5xl mx-auto p-6">
+    <div id="courseContent" class="space-y-10"></div>
   </main>
 
+  <footer id="footer" class="py-6"></footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/footer.js"></script>
   <script src="js/course.js"></script>
 </body>
 </html>
