@@ -5,38 +5,46 @@
   <title>FAST Repository</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      darkMode: 'class'
-    }
+    tailwind.config = { darkMode: 'class' }
   </script>
 </head>
 
-<body class="bg-[#f6f1e7] dark:bg-[#0d1117] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+<body class="bg-[#f4efe6] dark:bg-[#0d1117] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
 
-  <nav id="navbar" class="border-b border-gray-200 dark:border-gray-800"></nav>
+<nav id="navbar" class="bg-[#e2dac8] dark:bg-[#010409] border-b border-black/10 dark:border-gray-800"></nav>
 
-  <main class="flex-grow max-w-6xl mx-auto p-6">
+<main class="flex-grow max-w-6xl mx-auto p-6">
 
-    <input
-      id="searchInput"
-      type="text"
-      placeholder="Search by course name, code, or slug (pf, oop...)"
-      class="w-full p-4 rounded-lg bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 mb-8"
-    />
+  <input id="searchInput"
+    placeholder="Search by course name, code or slug (pf, oop, coal...)"
+    class="w-full p-4 rounded-xl bg-[#ede6d8] dark:bg-[#161b22] border mb-8"
+  />
 
-    <div id="courseList" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
-  </main>
+  <div id="courseList" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
 
-  <footer id="footer" class="py-6"></footer>
+  <!-- CAMPUS PROMPT -->
+  <div id="campusPrompt"
+    class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-[#161b22] rounded-xl p-6 max-w-md relative">
+      <button onclick="closePrompt()" class="absolute top-3 right-3">✖</button>
+      <p class="text-lg font-semibold mb-2">Hey Buddy!</p>
+      <p>Please select your campus from the top right corner first, so we gather the right resources for ya!</p>
+    </div>
+  </div>
 
-  <script src="js/theme.js"></script>
-  <script src="js/navbar.js"></script>
-  <script src="js/footer.js"></script>
-  <script src="js/home.js"></script>
+</main>
 
-  <script>
-    renderNavbar({ title: "Open-source FAST Repository" });
-    renderFooter();
-  </script>
+<footer id="footer" class="py-6"></footer>
+
+<script src="js/theme.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/home.js"></script>
+
+<script>
+  renderNavbar({ isHome: true });
+  renderFooter();
+</script>
+
 </body>
 </html>

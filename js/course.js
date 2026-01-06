@@ -1,12 +1,14 @@
+const CAMPUS_KEY = "fast_repo_selected_campus";
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("course");
+const campus = localStorage.getItem(CAMPUS_KEY);
 
 fetch(`data/${slug}.json`)
   .then(res => res.json())
   .then(data => {
     renderNavbar({
       title: `${data.course_code} – ${data.course_name}`,
-      backLink: "index.html"
+      isHome: false
     });
     renderFooter();
     renderSections(data);
@@ -15,56 +17,43 @@ fetch(`data/${slug}.json`)
 function renderSections(data) {
   const container = document.getElementById("courseContent");
 
-  for (const campus in data.campuses) {
-    const items = data.campuses[campus];
-    if (!items.length) continue;
+  // CAMPUS CARD
+  container.innerHTML += `
+    <section class="bg-[#ede6d8] dark:bg-[#161b22] rounded-xl p-6">
+      <h2 class="text-xl font-semibold mb-4">
+        Resources from ${campus} campus
+      </h2>
+      ${
+        data.campuses[campus]?.length
+          ? data.campuses[campus].map(r => `
+            <a href="${r.url}" class="block mb-3 underline text-blue-500">
+              ${r.title}
+            </a>
+          `).join("")
+          : `<p class="text-gray-500">
+              Hmm, it looks like there is a gap between this website and seniors from your campus, as there are no resources received so far related to this subject from your campus. Please become the bridge for that gap and we would really appreciate your efforts in doing so! :)
+            </p>`
+      }
+    </section>
+  `;
 
-    container.innerHTML += `
-      <section>
-        <h2 class="text-xl font-semibold mb-3">${campus} Campus</h2>
-        <div class="grid gap-4">
-          ${items.map(r => `
-            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4">
-              <a href="${r.url}" class="text-blue-500 hover:underline font-medium">
+  // GENERAL CARD
+  container.innerHTML += `
+    <section class="bg-[#ede6d8] dark:bg-[#161b22] rounded-xl p-6">
+      <h2 class="text-xl font-semibold mb-4">
+        Generic resources (YT playlists etc)
+      </h2>
+      ${
+        data.youtube.length || data.general.length
+          ? [...data.youtube, ...data.general].map(r => `
+              <a href="${r.url}" class="block mb-2 underline">
                 ${r.title}
               </a>
-              <p class="text-sm text-gray-500 mt-1">
-                Includes: ${r.includes.join(", ")}
-              </p>
-            </div>
-          `).join("")}
-        </div>
-      </section>
-    `;
-  }
-
-  if (data.youtube.length) {
-    container.innerHTML += `
-      <section>
-        <h2 class="text-xl font-semibold">YouTube Resources</h2>
-        <ul class="mt-2 space-y-1">
-          ${data.youtube.map(y => `
-            <li>
-              <a href="${y.url}" class="text-red-500 hover:underline">${y.title}</a>
-            </li>
-          `).join("")}
-        </ul>
-      </section>
-    `;
-  }
-
-  if (data.general.length) {
-    container.innerHTML += `
-      <section>
-        <h2 class="text-xl font-semibold">General Resources</h2>
-        <ul class="mt-2 space-y-1">
-          ${data.general.map(g => `
-            <li>
-              <a href="${g.url}" class="text-blue-500 hover:underline">${g.title}</a>
-            </li>
-          `).join("")}
-        </ul>
-      </section>
-    `;
-  }
+            `).join("")
+          : `<p class="text-gray-500">
+              Hmm, it looks like there is a gap between this website and seniors from your campus. Please become the bridge for this gap and we would really appreciate your efforts in doing so! :)
+            </p>`
+      }
+    </section>
+  `;
 }
