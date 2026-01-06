@@ -2,26 +2,22 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>Course</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Resources</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config = { darkMode: 'class' }</script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
 </head>
-
-<body class="bg-[#efe7da] dark:bg-[#0d1117] text-gray-900 dark:text-gray-100
-         min-h-screen flex flex-col">
-         
-<nav id="navbar" class="bg-[#e2dac8] dark:bg-[#010409] border-b"></nav>
-
-<main class="flex-grow max-w-5xl mx-auto p-6 space-y-10">
-  <div id="courseContent"></div>
-</main>
-
-<footer id="footer" class="py-6"></footer>
-
-<script src="js/theme.js"></script>
-<script src="js/navbar.js"></script>
-<script src="js/footer.js"></script>
-<script src="js/course.js"></script>
-
+<body class="bg-[#ede7d9] dark:bg-[#0d1117] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-colors">
+  <nav id="navbar" class="border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50"></nav>
+  <main class="flex-grow max-w-5xl mx-auto w-full p-4 md:p-8">
+    <div id="courseContent" class="space-y-8 md:space-y-12"></div>
+  </main>
+  <footer id="footer" class="py-10 border-t border-gray-200 dark:border-gray-800"></footer>
+  <script src="js/theme.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/course.js"></script>
 </body>
 </html>

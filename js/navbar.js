@@ -1,106 +1,78 @@
-const CAMPUS_KEY = "fast_repo_selected_campus";
-const CAMPUSES = [
-  "Islamabad",
-  "Lahore",
-  "Karachi",
-  "Chiniot-Faisalabad",
-  "Peshawar",
-  "Multan"
-];
-
-function renderNavbar({ title, isHome = false }) {
+function renderNavbar({ title, isCoursePage = false, courseCode = "" }) {
   const nav = document.getElementById("navbar");
-
+  const selectedCampus = localStorage.getItem("fast_repo_selected_campus");
+  
   nav.innerHTML = `
-    <div class="relative bg-[#0b0f14] text-gray-100">
-      <div class="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+    <div class="flex items-center justify-between px-4 md:px-8 py-3 bg-[#fdfaf1] dark:bg-[#010409] transition-colors">
+      <div class="flex items-center gap-4 flex-1">
+        <a href="index.html" class="shrink-0">
+          <img src="assets/logo.png" class="h-10 w-10 hover:scale-105 transition-transform" />
+        </a>
+        ${!isCoursePage ? `
+          <div class="hidden md:block">
+            <h1 class="text-lg font-black tracking-tight text-gray-900 dark:text-gray-100 uppercase">${title}</h1>
+            <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">- By a Fastian and for the Fastians!</p>
+          </div>
+        ` : ""}
+      </div>
 
-        <!-- Left -->
-        <div class="flex items-center gap-3">
-          <a href="index.html">
-            <img src="assets/logo.png" class="h-9 w-9" />
-          </a>
-
-          ${!isHome ? `
-            <h1 class="absolute left-1/2 -translate-x-1/2 text-lg md:text-xl font-semibold">
-              ${title}
-            </h1>
-          ` : `
-            <h1 class="text-lg md:text-xl font-semibold">${title}</h1>
-            <p class="text-sm text-gray-400 ml-2 hidden md:block">
-              – By a Fastian and for the Fastians!
-            </p>
-          `}
+      ${isCoursePage ? `
+        <div class="flex flex-col items-center text-center flex-1">
+          <h2 class="text-xl font-black italic text-blue-600 dark:text-blue-400 leading-none">${courseCode}</h2>
+          <p class="text-[10px] font-bold text-gray-500 uppercase tracking-tighter truncate max-w-[150px] md:max-w-none">${title}</p>
         </div>
+      ` : ""}
 
-        <!-- Right -->
-        <div class="flex items-center gap-3">
-
-          <!-- Campus selector -->
-          <div class="relative">
-            <button id="campusBtn" class="p-2 rounded hover:bg-gray-800">
-              <img src="assets/locationEmoji.png" class="h-5 w-5" />
-            </button>
-
-            <div id="campusMenu"
-              class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg shadow-lg z-50 p-3">
-              <p class="text-sm font-semibold mb-2">Select Campus:</p>
-              ${CAMPUSES.map(c => `
-                <button data-campus="${c}"
-                  class="campus-option w-full text-left px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-sm">
-                  ${c}
+      <div class="flex items-center gap-1 md:gap-3 flex-1 justify-end">
+        <div class="relative location-container">
+          <button id="locBtn" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+            <img src="assets/locationEmoji.png" class="h-6 w-6 object-contain" />
+          </button>
+          <div id="locMenu" class="hidden absolute right-0 mt-3 w-56 bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl z-50 overflow-hidden">
+            <p class="px-4 py-3 text-[10px] font-black uppercase text-gray-400 border-b dark:border-gray-800 tracking-widest">Select Campus:</p>
+            <div class="flex flex-col">
+              ${["Islamabad", "Lahore", "Karachi", "Chiniot-Faisalabad", "Peshawar", "Multan"].map(c => `
+                <button onclick="pickCampus('${c}')" class="px-4 py-3 text-left text-sm font-bold hover:bg-blue-600 hover:text-white transition-colors border-b last:border-0 dark:border-gray-800">
+                  ${c} ${selectedCampus === c ? '✓' : ''}
                 </button>
-              `).join("")}
+              `).join('')}
             </div>
           </div>
+        </div>
 
-          <!-- Theme -->
-          <button onclick="toggleTheme()" class="p-2 rounded hover:bg-gray-800">
-            <span class="dark:hidden">🌙</span>
-            <span class="hidden dark:inline">💡</span>
-          </button>
+        <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+          <span class="dark:hidden text-xl">🌙</span>
+          <span class="hidden dark:inline text-xl">💡</span>
+        </button>
 
-          <!-- Menu -->
-          <div class="relative">
-            <button id="menuBtn" class="p-2 rounded hover:bg-gray-800">☰</button>
-            <div id="menuDropdown"
-              class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg z-50">
-              <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Home</a>
-              <a href="https://github.com/Ahmar004/Fast_Repository/blob/main/CONTRIBUTING.md" target="_blank"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Contribute</a>
-              <a href="https://chat.whatsapp.com/Fyo2nkT3cbW9iqVJQt02tD" target="_blank"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Join on WhatsApp</a>
-            </div>
+        <div class="relative menu-container">
+          <button id="menuBtn" class="p-2 text-2xl hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors">☰</button>
+          <div id="menuContent" class="hidden absolute right-0 mt-3 w-48 bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl z-50">
+            <a href="index.html" class="block px-4 py-3 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800 border-b dark:border-gray-800">Home</a>
+            <a href="https://github.com/Ahmar004/Fast_Repository/blob/main/CONTRIBUTING.md" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800 border-b dark:border-gray-800">Contribute</a>
+            <a href="https://chat.whatsapp.com/Fyo2nkT3cbW9iqVJQt02tD" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800">Join WhatsApp</a>
           </div>
         </div>
       </div>
     </div>
   `;
 
-  setupNavbarLogic();
+  // Handle Global Clicks to close menus
+  document.addEventListener('click', (e) => {
+    const locBtn = document.getElementById('locBtn');
+    const locMenu = document.getElementById('locMenu');
+    const menuBtn = document.getElementById('menuBtn');
+    const menuContent = document.getElementById('menuContent');
+
+    if (locBtn && !locBtn.contains(e.target) && !locMenu.contains(e.target)) locMenu.classList.add('hidden');
+    else if (locBtn && locBtn.contains(e.target)) locMenu.classList.toggle('hidden');
+
+    if (menuBtn && !menuBtn.contains(e.target) && !menuContent.contains(e.target)) menuContent.classList.add('hidden');
+    else if (menuBtn && menuBtn.contains(e.target)) menuContent.classList.toggle('hidden');
+  });
 }
 
-function setupNavbarLogic() {
-  const campusBtn = document.getElementById("campusBtn");
-  const campusMenu = document.getElementById("campusMenu");
-  const menuBtn = document.getElementById("menuBtn");
-  const menuDropdown = document.getElementById("menuDropdown");
-
-  campusBtn.onclick = () => campusMenu.classList.toggle("hidden");
-  menuBtn.onclick = () => menuDropdown.classList.toggle("hidden");
-
-  document.addEventListener("click", e => {
-    if (!campusBtn.contains(e.target) && !campusMenu.contains(e.target))
-      campusMenu.classList.add("hidden");
-
-    if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target))
-      menuDropdown.classList.add("hidden");
-  });
-
-  document.querySelectorAll(".campus-option").forEach(btn => {
-    btn.onclick = () => {
-      localStorage.setItem(CAMPUS_KEY, btn.dataset.campus);
-      location.reload();
-    };
-  });
+function pickCampus(campus) {
+  localStorage.setItem("fast_repo_selected_campus", campus);
+  window.location.reload();
 }

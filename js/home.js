@@ -1,4 +1,3 @@
-const CAMPUS_KEY = "fast_repo_selected_campus";
 let allCourses = [];
 
 fetch("data/courses.json")
@@ -8,71 +7,60 @@ fetch("data/courses.json")
     renderCourses(data);
   });
 
-const searchInput = document.getElementById("searchInput");
+function checkCampusAndAct(callback) {
+  const campus = localStorage.getItem("fast_repo_selected_campus");
+  if (!campus) {
+    showReminder();
+    return false;
+  }
+  return true;
+}
 
-searchInput.addEventListener("input", e => {
-  if (!ensureCampus()) return;
+function showReminder() {
+  const modal = document.getElementById("campusModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+function hideReminder() {
+  const modal = document.getElementById("campusModal");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
+
+document.getElementById("searchInput").addEventListener("input", e => {
+  if (!checkCampusAndAct()) {
+    e.target.value = "";
+    return;
+  }
   const q = e.target.value.toLowerCase();
-  renderCourses(allCourses.filter(c =>
+  const filtered = allCourses.filter(c =>
     c.name.toLowerCase().includes(q) ||
     c.code.toLowerCase().includes(q) ||
     c.slug.toLowerCase().includes(q)
-  ));
+  );
+  renderCourses(filtered);
 });
 
 function renderCourses(courses) {
   const container = document.getElementById("courseList");
   container.innerHTML = "";
-
   courses.forEach(course => {
-    const card = document.createElement("a");
-    card.href = `course.html?course=${course.slug}`;
-    card.className =
-      "bg-white dark:bg-gray-900 border rounded-xl p-5 hover:shadow-lg transition";
-
+    const card = document.createElement("div");
+    card.className = "bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 hover:shadow-2xl transition-all cursor-pointer group hover:-translate-y-1";
     card.innerHTML = `
-      <h2 class="font-semibold">${course.name}</h2>
-      <p class="text-sm text-gray-500">${course.code} • ${course.slug}</p>
+      <div class="flex justify-between items-start mb-4">
+        <span class="text-[10px] font-black px-2 py-1 bg-blue-500/10 text-blue-600 rounded-md uppercase tracking-widest">${course.code}</span>
+        <span class="text-gray-300 dark:text-gray-700 group-hover:text-blue-500 transition-colors">→</span>
+      </div>
+      <h2 class="font-black text-lg text-gray-800 dark:text-gray-100 leading-tight">${course.name}</h2>
+      <p class="text-xs font-bold text-gray-400 mt-2 uppercase tracking-tighter">${course.slug}</p>
     `;
-
-    card.onclick = e => {
-      if (!ensureCampus()) {
-        e.preventDefault();
+    card.onclick = () => {
+      if (checkCampusAndAct()) {
+        window.location.href = `course.html?course=${course.slug}`;
       }
     };
-
     container.appendChild(card);
   });
-}
-
-function ensureCampus() {
-  if (localStorage.getItem(CAMPUS_KEY)) return true;
-  showReminder();
-  return false;
-}
-
-function showReminder() {
-  if (document.getElementById("campusReminder")) return;
-
-  const overlay = document.createElement("div");
-  overlay.id = "campusReminder";
-  overlay.className =
-    "fixed inset-0 bg-black/30 flex items-center justify-center z-50";
-
-  overlay.innerHTML = `
-    <div class="bg-white dark:bg-gray-900 rounded-xl p-6 max-w-md text-center relative">
-      <button class="absolute top-2 right-3 text-xl">&times;</button>
-      <p class="text-lg font-medium">
-        Hey Buddy, please select your campus from the top right corner first,
-        so we gather up the right resources for ya!
-      </p>
-    </div>
-  `;
-
-  overlay.onclick = e => {
-    if (e.target === overlay || e.target.tagName === "BUTTON")
-      overlay.remove();
-  };
-
-  document.body.appendChild(overlay);
 }

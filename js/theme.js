@@ -1,4 +1,5 @@
 const THEME_KEY = "fast_repo_theme";
+const CAMPUS_KEY = "fast_repo_selected_campus";
 
 function applyTheme(theme) {
   const html = document.documentElement;
