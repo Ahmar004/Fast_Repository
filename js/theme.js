@@ -9,6 +9,15 @@ function applyTheme(theme) {
     html.classList.remove("dark");
   }
   localStorage.setItem(THEME_KEY, theme);
+  updateLogos(theme); // Added this line
+}
+
+function updateLogos(theme) {
+  const logos = document.querySelectorAll('.dynamic-logo');
+  logos.forEach(img => {
+    // assets/logo.png for Dark Mode, assets/logo_white.png for Light Mode
+    img.src = theme === 'dark' ? 'assets/logo.png' : 'assets/logo_white.png';
+  });
 }
 
 function toggleTheme() {

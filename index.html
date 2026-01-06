@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAST Repository</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAST Repository</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // DARK MODE (GitHub Style)
+                        darkNav: '#010409', 
+                        darkPage: '#0d1117', 
+                        darkCard: '#161b22', 
+                        darkBorder: '#30363d',
+
+                        // NEW LIGHT MODE (PC-Friendly Muted Slate)
+                        lightNav: '#b8bfc6',    // Darkest - The Top Bar
+                        lightPage: '#ced4da',   // Middle - The Background
+                        lightCard: '#e9ecef',   // Lightest - The Course Cards
+                        lightBorder: '#adb5bd'  // Border contrast
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-[#ede7d9] dark:bg-[#0d1117] text-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-colors">
+<body class="bg-lightPage dark:bg-darkPage text-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-colors">
   
-  <nav id="navbar" class="border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50"></nav>
+  <nav id="navbar" class="border-b border-lightBorder dark:border-darkBorder bg-lightNav dark:bg-darkNav sticky top-0 z-50"></nav>
 
   <div id="campusModal" class="hidden fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm items-center justify-center p-4" onclick="if(event.target === this) hideReminder()">
-    <div class="bg-white dark:bg-[#161b22] w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative border border-blue-500/20">
+    <div class="bg-lightCard dark:bg-darkCard w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative border border-blue-500/20">
       <button onclick="hideReminder()" class="absolute top-6 right-6 text-gray-400 hover:text-black dark:hover:text-white text-xl">✕</button>
-      <div class="h-16 w-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6">
+      <div class="h-16 w-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6">
         <img src="assets/locationEmoji.png" class="h-10 w-10" />
       </div>
       <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2 leading-tight">Hey Buddy!</h3>
       <p class="text-gray-600 dark:text-gray-400 font-medium mb-8">Please select your campus from the top right corner first, so we gather up the right resources for ya!</p>
       <button onclick="document.getElementById('locBtn').click(); hideReminder();" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black tracking-wide shadow-lg shadow-blue-500/30 transition-all">
-        SELECT CAMPUS NOW
+        OK
       </button>
     </div>
   </div>
@@ -33,20 +52,20 @@
         id="searchInput"
         type="text"
         placeholder="Search by course name, code, or slug (pf, oop...)"
-        class="w-full p-5 pl-6 rounded-2xl bg-white dark:bg-[#0d1117] border-2 border-transparent focus:border-blue-500 dark:border-gray-800 shadow-xl outline-none transition-all font-bold"
+        class="w-full p-5 pl-6 rounded-2xl bg-lightCard dark:bg-darkCard border-2 border-transparent focus:border-blue-500 dark:border-darkBorder shadow-xl outline-none transition-all font-bold"
       />
     </div>
     <div id="courseList" class="grid sm:grid-cols-2 md:grid-cols-3 gap-8"></div>
   </main>
 
-  <footer id="footer" class="py-10 border-t border-gray-200 dark:border-gray-800"></footer>
+  <footer id="footer" class="py-3 bg-lightNav dark:bg-darkNav border-t border-lightBorder dark:border-darkBorder"></footer>
 
   <script src="js/theme.js"></script>
   <script src="js/navbar.js"></script>
   <script src="js/footer.js"></script>
   <script src="js/home.js"></script>
   <script>
-    renderNavbar({ title: "FAST Repository" });
+    renderNavbar({ title: "Open-source FAST Repository" });
     renderFooter();
   </script>
 </body>

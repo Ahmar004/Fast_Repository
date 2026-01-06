@@ -47,14 +47,15 @@ function renderCourses(courses) {
   container.innerHTML = "";
   courses.forEach(course => {
     const card = document.createElement("div");
-    card.className = "bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-800 rounded-3xl p-6 hover:shadow-2xl transition-all cursor-pointer group hover:-translate-y-1";
+    // Link to the tailwind.config colors
+    card.className = "bg-lightCard dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-3xl p-6 hover:shadow-2xl transition-all cursor-pointer group hover:-translate-y-1";
     card.innerHTML = `
       <div class="flex justify-between items-start mb-4">
         <span class="text-[10px] font-black px-2 py-1 bg-blue-500/10 text-blue-600 rounded-md uppercase tracking-widest">${course.code}</span>
-        <span class="text-gray-300 dark:text-gray-700 group-hover:text-blue-500 transition-colors">→</span>
+        <span class="text-gray-400 dark:text-gray-600 group-hover:text-blue-500 transition-colors">→</span>
       </div>
       <h2 class="font-black text-lg text-gray-800 dark:text-gray-100 leading-tight">${course.name}</h2>
-      <p class="text-xs font-bold text-gray-400 mt-2 uppercase tracking-tighter">${course.slug}</p>
+      <p class="text-xs font-bold text-gray-500 mt-2 uppercase tracking-tighter">${course.slug}</p>
     `;
     card.onclick = () => {
       if (checkCampusAndAct()) {

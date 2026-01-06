@@ -2,16 +2,20 @@ function renderNavbar({ title, isCoursePage = false, courseCode = "" }) {
   const nav = document.getElementById("navbar");
   const selectedCampus = localStorage.getItem("fast_repo_selected_campus");
   
+  // Detect current theme to set initial logo
+  const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  const logoSrc = (currentTheme === 'dark') ? 'assets/logo.png' : 'assets/logo_white.png';
+  
   nav.innerHTML = `
-    <div class="flex items-center justify-between px-4 md:px-8 py-3 bg-[#fdfaf1] dark:bg-[#010409] transition-colors">
+    <div class="flex items-center justify-between px-4 md:px-8 py-3 bg-lightNav dark:bg-darkNav transition-colors">
       <div class="flex items-center gap-4 flex-1">
         <a href="index.html" class="shrink-0">
-          <img src="assets/logo.png" class="h-10 w-10 hover:scale-105 transition-transform" />
+          <img src="${logoSrc}" class="dynamic-logo h-10 w-10 hover:scale-105 transition-transform" />
         </a>
         ${!isCoursePage ? `
           <div class="hidden md:block">
-            <h1 class="text-lg font-black tracking-tight text-gray-900 dark:text-gray-100 uppercase">${title}</h1>
-            <p class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">- By a Fastian and for the Fastians!</p>
+            <h1 class="text-[20px] font-black tracking-tight text-gray-900 dark:text-gray-100 uppercase">${title}</h1>
+            <p class="text-[12px] font-bold text-black-500 dark:text-gray-400 uppercase tracking-widest">- By a Fastian and for the Fastians!</p>
           </div>
         ` : ""}
       </div>
@@ -26,13 +30,13 @@ function renderNavbar({ title, isCoursePage = false, courseCode = "" }) {
       <div class="flex items-center gap-1 md:gap-3 flex-1 justify-end">
         <div class="relative location-container">
           <button id="locBtn" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
-            <img src="assets/locationEmoji.png" class="h-6 w-6 object-contain" />
+            <img src="assets/locationEmoji.png" class="h-8 w-5 pt-2 object-contain" />
           </button>
-          <div id="locMenu" class="hidden absolute right-0 mt-3 w-56 bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl z-50 overflow-hidden">
-            <p class="px-4 py-3 text-[10px] font-black uppercase text-gray-400 border-b dark:border-gray-800 tracking-widest">Select Campus:</p>
+          <div id="locMenu" class="hidden absolute right-0 mt-3 w-56 bg-lightCard dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-2xl shadow-2xl z-50 overflow-hidden">
+            <p class="px-4 py-3 text-[10px] font-black uppercase text-gray-400 border-b border-lightBorder dark:border-darkBorder tracking-widest">Select Campus:</p>
             <div class="flex flex-col">
               ${["Islamabad", "Lahore", "Karachi", "Chiniot-Faisalabad", "Peshawar", "Multan"].map(c => `
-                <button onclick="pickCampus('${c}')" class="px-4 py-3 text-left text-sm font-bold hover:bg-blue-600 hover:text-white transition-colors border-b last:border-0 dark:border-gray-800">
+                <button onclick="pickCampus('${c}')" class="px-4 py-3 text-left text-sm font-bold hover:bg-blue-600 hover:text-white transition-colors border-b last:border-0 border-lightBorder dark:border-darkBorder">
                   ${c} ${selectedCampus === c ? '✓' : ''}
                 </button>
               `).join('')}
@@ -47,17 +51,18 @@ function renderNavbar({ title, isCoursePage = false, courseCode = "" }) {
 
         <div class="relative menu-container">
           <button id="menuBtn" class="p-2 text-2xl hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors">☰</button>
-          <div id="menuContent" class="hidden absolute right-0 mt-3 w-48 bg-white dark:bg-[#161b22] border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl z-50">
-            <a href="index.html" class="block px-4 py-3 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800 border-b dark:border-gray-800">Home</a>
-            <a href="https://github.com/Ahmar004/Fast_Repository/blob/main/CONTRIBUTING.md" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800 border-b dark:border-gray-800">Contribute</a>
-            <a href="https://chat.whatsapp.com/Fyo2nkT3cbW9iqVJQt02tD" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-800">Join WhatsApp</a>
+          <div id="menuContent" class="hidden absolute right-0 mt-3 w-48 bg-lightCard dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-xl shadow-xl z-50 overflow-hidden">
+            <a href="index.html" class="block px-4 py-3 text-sm font-bold hover:bg-lightPage dark:hover:bg-gray-800 border-b border-lightBorder dark:border-darkBorder">Home</a>
+            <a href="https://github.com/Ahmar004/Fast_Repository/blob/main/CONTRIBUTING.md" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-lightPage dark:hover:bg-gray-800 border-b border-lightBorder dark:border-darkBorder">Contribute</a>
+            <a href="https://chat.whatsapp.com/FLOwtSEzKf4KhWCyHwBpwc" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-lightPage dark:hover:bg-gray-800 border-b border-lightBorder dark:border-darkBorder">Give us feedback</a>
+            <a href="https://linktr.ee/ahmar004" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-lightPage dark:hover:bg-gray-800 border-b border-lightBorder dark:border-darkBorder">Contact Site Owner</a>
+            <a href="https://chat.whatsapp.com/Fyo2nkT3cbW9iqVJQt02tD" target="_blank" class="block px-4 py-3 text-sm font-bold hover:bg-lightPage dark:hover:bg-gray-800 border-b border-lightBorder dark:border-darkBorder">Join us on WhatsApp</a>
           </div>
         </div>
       </div>
     </div>
   `;
 
-  // Handle Global Clicks to close menus
   document.addEventListener('click', (e) => {
     const locBtn = document.getElementById('locBtn');
     const locMenu = document.getElementById('locMenu');
