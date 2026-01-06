@@ -8,16 +8,16 @@ fetch("data/courses.json")
     renderCourses(data);
   });
 
-document.getElementById("searchInput").addEventListener("input", e => {
-  if (!checkCampus()) return;
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", e => {
+  if (!ensureCampus()) return;
   const q = e.target.value.toLowerCase();
-  renderCourses(
-    allCourses.filter(c =>
-      c.name.toLowerCase().includes(q) ||
-      c.code.toLowerCase().includes(q) ||
-      c.slug.toLowerCase().includes(q)
-    )
-  );
+  renderCourses(allCourses.filter(c =>
+    c.name.toLowerCase().includes(q) ||
+    c.code.toLowerCase().includes(q) ||
+    c.slug.toLowerCase().includes(q)
+  ));
 });
 
 function renderCourses(courses) {
@@ -25,29 +25,54 @@ function renderCourses(courses) {
   container.innerHTML = "";
 
   courses.forEach(course => {
-    container.innerHTML += `
-      <a onclick="openCourse('${course.slug}')"
-        class="cursor-pointer bg-[#ede6d8] dark:bg-[#161b22] border rounded-xl p-5 hover:shadow">
-        <h2 class="font-semibold">${course.name}</h2>
-        <p class="text-sm text-gray-500">${course.code} • ${course.slug}</p>
-      </a>
+    const card = document.createElement("a");
+    card.href = `course.html?course=${course.slug}`;
+    card.className =
+      "bg-white dark:bg-gray-900 border rounded-xl p-5 hover:shadow-lg transition";
+
+    card.innerHTML = `
+      <h2 class="font-semibold">${course.name}</h2>
+      <p class="text-sm text-gray-500">${course.code} • ${course.slug}</p>
     `;
+
+    card.onclick = e => {
+      if (!ensureCampus()) {
+        e.preventDefault();
+      }
+    };
+
+    container.appendChild(card);
   });
 }
 
-function checkCampus() {
-  if (!localStorage.getItem(CAMPUS_KEY)) {
-    document.getElementById("campusPrompt").classList.remove("hidden");
-    return false;
-  }
-  return true;
+function ensureCampus() {
+  if (localStorage.getItem(CAMPUS_KEY)) return true;
+  showReminder();
+  return false;
 }
 
-function openCourse(slug) {
-  if (!checkCampus()) return;
-  location.href = `course.html?course=${slug}`;
-}
+function showReminder() {
+  if (document.getElementById("campusReminder")) return;
 
-function closePrompt() {
-  document.getElementById("campusPrompt").classList.add("hidden");
+  const overlay = document.createElement("div");
+  overlay.id = "campusReminder";
+  overlay.className =
+    "fixed inset-0 bg-black/30 flex items-center justify-center z-50";
+
+  overlay.innerHTML = `
+    <div class="bg-white dark:bg-gray-900 rounded-xl p-6 max-w-md text-center relative">
+      <button class="absolute top-2 right-3 text-xl">&times;</button>
+      <p class="text-lg font-medium">
+        Hey Buddy, please select your campus from the top right corner first,
+        so we gather up the right resources for ya!
+      </p>
+    </div>
+  `;
+
+  overlay.onclick = e => {
+    if (e.target === overlay || e.target.tagName === "BUTTON")
+      overlay.remove();
+  };
+
+  document.body.appendChild(overlay);
 }

@@ -1,101 +1,106 @@
 const CAMPUS_KEY = "fast_repo_selected_campus";
+const CAMPUSES = [
+  "Islamabad",
+  "Lahore",
+  "Karachi",
+  "Chiniot-Faisalabad",
+  "Peshawar",
+  "Multan"
+];
 
 function renderNavbar({ title, isHome = false }) {
   const nav = document.getElementById("navbar");
-  const selectedCampus = localStorage.getItem(CAMPUS_KEY);
 
   nav.innerHTML = `
-    <div class="flex items-center justify-between px-6 py-4">
-      
-      <!-- LEFT -->
-      <div class="flex items-center gap-3">
-        <a href="index.html">
-          <img src="assets/logo.png" class="h-9 w-9" />
-        </a>
+    <div class="relative bg-[#0b0f14] text-gray-100">
+      <div class="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
 
-        ${!isHome ? `
-          <h1 class="text-lg md:text-xl font-semibold">
-            ${title}
-          </h1>
-        ` : `
-          <div>
-            <h1 class="text-lg md:text-xl font-semibold">
-              Open-source FAST Repository
+        <!-- Left -->
+        <div class="flex items-center gap-3">
+          <a href="index.html">
+            <img src="assets/logo.png" class="h-9 w-9" />
+          </a>
+
+          ${!isHome ? `
+            <h1 class="absolute left-1/2 -translate-x-1/2 text-lg md:text-xl font-semibold">
+              ${title}
             </h1>
-            <p class="text-sm text-gray-500 dark:text-gray-400">
+          ` : `
+            <h1 class="text-lg md:text-xl font-semibold">${title}</h1>
+            <p class="text-sm text-gray-400 ml-2 hidden md:block">
               – By a Fastian and for the Fastians!
             </p>
+          `}
+        </div>
+
+        <!-- Right -->
+        <div class="flex items-center gap-3">
+
+          <!-- Campus selector -->
+          <div class="relative">
+            <button id="campusBtn" class="p-2 rounded hover:bg-gray-800">
+              <img src="assets/locationEmoji.png" class="h-5 w-5" />
+            </button>
+
+            <div id="campusMenu"
+              class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-lg shadow-lg z-50 p-3">
+              <p class="text-sm font-semibold mb-2">Select Campus:</p>
+              ${CAMPUSES.map(c => `
+                <button data-campus="${c}"
+                  class="campus-option w-full text-left px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-sm">
+                  ${c}
+                </button>
+              `).join("")}
+            </div>
           </div>
-        `}
-      </div>
 
-      <!-- RIGHT -->
-      <div class="flex items-center gap-3 relative">
+          <!-- Theme -->
+          <button onclick="toggleTheme()" class="p-2 rounded hover:bg-gray-800">
+            <span class="dark:hidden">🌙</span>
+            <span class="hidden dark:inline">💡</span>
+          </button>
 
-        <!-- CAMPUS -->
-        <button id="campusBtn" class="p-2 rounded hover:bg-black/10 dark:hover:bg-white/10">
-          <img src="assets/locationEmoji.png" class="h-6 w-6" />
-        </button>
-
-        <div id="campusMenu"
-          class="hidden absolute right-20 top-14 w-64 bg-white dark:bg-[#161b22] rounded-xl shadow-lg p-4 z-50">
-          <p class="font-semibold mb-2">Select Campus:</p>
-          ${["Islamabad","Lahore","Karachi","Chiniot-Faisalabad","Peshawar","Multan"]
-            .map(c => `
-              <button class="block w-full text-left px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-                onclick="selectCampus('${c}')">
-                ${c}
-              </button>
-            `).join("")}
+          <!-- Menu -->
+          <div class="relative">
+            <button id="menuBtn" class="p-2 rounded hover:bg-gray-800">☰</button>
+            <div id="menuDropdown"
+              class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg z-50">
+              <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Home</a>
+              <a href="https://github.com/Ahmar004/Fast_Repository/blob/main/CONTRIBUTING.md" target="_blank"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Contribute</a>
+              <a href="https://chat.whatsapp.com/Fyo2nkT3cbW9iqVJQt02tD" target="_blank"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">Join on WhatsApp</a>
+            </div>
+          </div>
         </div>
-
-        <!-- THEME -->
-        <button onclick="toggleTheme()" class="p-2 rounded hover:bg-black/10 dark:hover:bg-white/10">
-          <span class="dark:hidden">🌙</span>
-          <span class="hidden dark:inline">💡</span>
-        </button>
-
-        <!-- MENU -->
-        <button id="menuBtn" class="p-2 rounded hover:bg-black/10 dark:hover:bg-white/10">
-          ☰
-        </button>
-
-        <div id="menuDropdown"
-          class="hidden absolute right-0 top-14 w-48 bg-white dark:bg-[#161b22] rounded-xl shadow-lg z-50">
-          <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Home</a>
-          <a href="https://github.com/Ahmar004/Fast_Repository/blob/main/CONTRIBUTING.md" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contribute</a>
-          <a href="https://chat.whatsapp.com/Fyo2nkT3cbW9iqVJQt02tD" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Join WhatsApp</a>
-        </div>
-
       </div>
     </div>
   `;
 
-  // MENU LOGIC
-  const menuBtn = document.getElementById("menuBtn");
-  const menu = document.getElementById("menuDropdown");
-  const campusBtn = document.getElementById("campusBtn");
-  const campusMenu = document.getElementById("campusMenu");
-
-  menuBtn.onclick = e => {
-    e.stopPropagation();
-    menu.classList.toggle("hidden");
-    campusMenu.classList.add("hidden");
-  };
-
-  campusBtn.onclick = e => {
-    e.stopPropagation();
-    campusMenu.classList.toggle("hidden");
-    menu.classList.add("hidden");
-  };
-
-  document.addEventListener("click", () => {
-    menu.classList.add("hidden");
-    campusMenu.classList.add("hidden");
-  });
+  setupNavbarLogic();
 }
 
-function selectCampus(campus) {
-  localStorage.setItem(CAMPUS_KEY, campus);
-  location.reload();
+function setupNavbarLogic() {
+  const campusBtn = document.getElementById("campusBtn");
+  const campusMenu = document.getElementById("campusMenu");
+  const menuBtn = document.getElementById("menuBtn");
+  const menuDropdown = document.getElementById("menuDropdown");
+
+  campusBtn.onclick = () => campusMenu.classList.toggle("hidden");
+  menuBtn.onclick = () => menuDropdown.classList.toggle("hidden");
+
+  document.addEventListener("click", e => {
+    if (!campusBtn.contains(e.target) && !campusMenu.contains(e.target))
+      campusMenu.classList.add("hidden");
+
+    if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target))
+      menuDropdown.classList.add("hidden");
+  });
+
+  document.querySelectorAll(".campus-option").forEach(btn => {
+    btn.onclick = () => {
+      localStorage.setItem(CAMPUS_KEY, btn.dataset.campus);
+      location.reload();
+    };
+  });
 }
