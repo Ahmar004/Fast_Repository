@@ -15,6 +15,11 @@ function renderNavbar({ title, backLink = null }) {
         <h1 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100">
           ${title}
         </h1>
+
+        <p class="text-gray-600 dark:text-gray-400 mb-0">
+         - By a Fastian and for the Fastians!
+        </p>
+
       </div>
 
       <div class="flex items-center gap-3">
@@ -31,9 +36,9 @@ function renderNavbar({ title, backLink = null }) {
 
           <div class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded shadow-lg z-50">
             <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Home</a>
-            <a href="https://github.com/YOUR_REPO" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contribute</a>
-            <a href="https://chat.whatsapp.com/YOUR_LINK" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Join WhatsApp</a>
-            <a href="https://chat.whatsapp.com/FEEDBACK_LINK" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Give Feedback</a>
+            <a href="https://github.com/Ahmar004/Fast_Repository/blob/main/CONTRIBUTING.md" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contribute</a>
+            <a href="https://chat.whatsapp.com/Fyo2nkT3cbW9iqVJQt02tD" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Join on WhatsApp</a>
+            <a href="https://chat.whatsapp.com/FLOwtSEzKf4KhWCyHwBpwc" target="_blank" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Give Feedback</a>
           </div>
         </div>
       </div>
