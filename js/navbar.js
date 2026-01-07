@@ -29,8 +29,8 @@ function renderNavbar({ title, isCoursePage = false, courseCode = "" }) {
 
       <div class="flex items-center gap-1 md:gap-3 flex-1 justify-end">
         <div class="relative location-container">
-          <button id="locBtn" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
-            <img src="assets/locationEmoji.png" class="h-8 w-5 pt-2 object-contain" />
+          <button id="locBtn" class="rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+            <img src="assets/locationEmoji.png" class="h-7 w-5 pt-2 object-contain" />
           </button>
           <div id="locMenu" class="hidden absolute right-0 mt-3 w-56 bg-lightCard dark:bg-darkCard border border-lightBorder dark:border-darkBorder rounded-2xl shadow-2xl z-50 overflow-hidden">
             <p class="px-4 py-3 text-[10px] font-black uppercase text-gray-400 border-b border-lightBorder dark:border-darkBorder tracking-widest">Select Campus:</p>
